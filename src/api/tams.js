@@ -5,7 +5,7 @@ import { generateSignature } from '../utils/signature';
 // Use environment variables for sensitive information
 const appId = process.env.REACT_APP_TAMS_APP_ID;
 const apiKey = process.env.REACT_APP_TAMS_API_KEY;
-const jobUrl = 'https://tdnm88.vercel.app/v1/jobs'; // Ensure this is the correct endpoint URL
+const jobUrl = 'https://ap-east-1.tensorart.cloud/v1/jobs'; // Ensure this is the correct endpoint URL
 
 // Function to create a job for generating images from text prompts
 export const createTextToImageJob = async (text) => {
