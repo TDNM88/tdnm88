@@ -1,0 +1,11 @@
+﻿/* src/styles/ImageResult.module.css */
+.imageResult {
+  margin-top: 20px;
+}
+
+.image {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}

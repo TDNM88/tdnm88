@@ -1,0 +1,10 @@
+﻿/* src/styles/App.module.css */
+.app {
+  text-align: center;
+  padding: 20px;
+}
+
+.error {
+  color: red;
+  margin-top: 10px;
+}
