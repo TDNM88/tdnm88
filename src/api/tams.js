@@ -85,3 +85,5 @@ export const createTextToImageJob = async (text) => {
   } catch (error) {
     console.error('Error creating text-to-image job:', error);
     throw error; // Re-throw the error to be handled by the calling code
+  }
+};
