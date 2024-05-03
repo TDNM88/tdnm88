@@ -1,6 +1,6 @@
 // src/api/tams.js
 import { createMD5 } from '../utils/crypto';
-import { generateSignature } from '../utils/crypto';
+import { generateSignature } from '../utils/signature';
 
 // Use environment variables for sensitive information
 const appId = process.env.REACT_APP_TAMS_APP_ID;
