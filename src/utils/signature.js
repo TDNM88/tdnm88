@@ -1,18 +1,17 @@
-// src/utils/signature.js
-import crypto from 'crypto';
+import {createHash, createSign} from "crypto";
+import {readFileSync} from "fs";
 
-// Function to generate a signature for API requests
-export const generateSignature = (method, url, appId, data, apiKey) => {
-  // Concatenate your data into a string as required by the API
-  const dataString = `${method}${url}${JSON.stringify(data)}${appId}`;
+export function generateSignature(method, url, appId, body, privateKeyPath) {
+  const methodStr = method.toUpperCase();
+  const urlStr = url;
+  const timestamp = Math.floor(Date.now() / 1000).toString();
+  const nonceStr = createHash('md5').update(timestamp).digest("hex");
+  const bodyStr = body ? JSON.stringify(body) : '';
+  const toSign = `${methodStr}\n${urlStr}\n${timestamp}\n${nonceStr}\n${bodyStr}`;
 
-  // Create a hash using the API key
-  const hash = crypto
-    .createHmac('sha256', apiKey)
-    .update(dataString)
-    .digest('hex');
-
-  return hash;
-};
-
-// You can include additional signature-related functions here if needed
+  const privateKey = readFileSync(privateKeyPath);
+  const sign = createSign('RSA-SHA256');
+  sign.update(toSign);
+  const signature = sign.sign(privateKey, "base64");
+  return `TAMS-SHA256-RSA app_id=${appId},nonce_str=${nonceStr},timestamp=${timestamp},signature=${signature}`;
+}
