@@ -5,7 +5,7 @@ import { createMD5 } from '../utils/crypto';
 // Use environment variables for sensitive information
 const appId = process.env.REACT_APP_TAMS_APP_ID;
 const apiKey = process.env.REACT_APP_TAMS_API_KEY;
-const jobUrl = 'https://ap-east-1.tensorart.cloud/v1/jobs'; // The actual Tams API endpoint URL
+const jobUrl = 'https://ap-east-1.tensorart.cloud'; // The actual Tams API endpoint URL
 
 // Function to create a job for generating images from text prompts
 export const createTextToImageJob = async (text) => {
