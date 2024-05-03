@@ -1,7 +1,6 @@
-import {createHash, createSign} from "crypto";
-import {readFileSync} from "fs";
+import { createHash, createSign } from "crypto";
 
-export function generateSignature(method, url, appId, body, privateKeyPath) {
+export function generateSignature(method, url, appId, body) {
   const methodStr = method.toUpperCase();
   const urlStr = url;
   const timestamp = Math.floor(Date.now() / 1000).toString();
@@ -9,7 +8,8 @@ export function generateSignature(method, url, appId, body, privateKeyPath) {
   const bodyStr = body ? JSON.stringify(body) : '';
   const toSign = `${methodStr}\n${urlStr}\n${timestamp}\n${nonceStr}\n${bodyStr}`;
 
-  const privateKey = readFileSync(privateKeyPath);
+  // Sử dụng biến môi trường để lấy khóa riêng tư
+  const privateKey = process.env.REACT_APP_TAMS_API_KEY;
   const sign = createSign('RSA-SHA256');
   sign.update(toSign);
   const signature = sign.sign(privateKey, "base64");
