@@ -77,16 +77,11 @@ export const createTextToImageJob = async (text) => {
     }
 
     const jobResponse = await response.json();
-
-    // Assuming the API returns a direct link to the generated image
-    // This might need to be adjusted based on the actual API response structure
-    const imageUrl = jobResponse.imageUrl; // Adjust this line based on the actual response structure
-
     return {
-      imageUrl: imageUrl
+      imageUrl: jobResponse.imageUrl
     };
   } catch (error) {
     console.error('Error creating text-to-image job:', error);
-    throw error;
+    throw error; // Re-throw the error to be handled by the calling code
   }
 };
