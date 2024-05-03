@@ -5,7 +5,7 @@ import { createMD5 } from '../utils/crypto';
 // Use environment variables for sensitive information
 const appId = process.env.REACT_APP_TAMS_APP_ID;
 const apiKey = process.env.REACT_APP_TAMS_API_KEY;
-const jobUrl = 'https://ap-east-1.tensorart.cloud'; // The actual Tams API endpoint URL
+const jobUrl = 'https://ap-east-1.tensorart.cloud/v1/jobs'; // Ensure this is the correct endpoint URL
 
 // Function to create a job for generating images from text prompts
 export const createTextToImageJob = async (text) => {
@@ -59,7 +59,7 @@ export const createTextToImageJob = async (text) => {
   };
 
   // Generate the signature for the request
-  const authHeader = generateSignature('POST', jobUrl, appId, txt2imgData, apiKey);
+  const signature = generateSignature('POST', jobUrl, appId, txt2imgData, apiKey);
 
   // Sending the request to the Tams API
   try {
@@ -67,13 +67,15 @@ export const createTextToImageJob = async (text) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}` // Using the API key from environment variables
+        'Authorization': `Bearer ${signature}` // Using the generated signature for authorization
       },
       body: JSON.stringify(txt2imgData)
     });
 
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      const errorBody = await response.text(); // or response.json() if the server sends JSON response
+      console.error(`HTTP error! status: ${response.status}, body: ${errorBody}`);
+      throw new Error(`HTTP error! status: ${response.status}, body: ${errorBody}`);
     }
 
     const jobResponse = await response.json();
@@ -83,5 +85,3 @@ export const createTextToImageJob = async (text) => {
   } catch (error) {
     console.error('Error creating text-to-image job:', error);
     throw error; // Re-throw the error to be handled by the calling code
-  }
-};
